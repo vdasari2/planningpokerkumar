@@ -1,1 +1,1 @@
-# planningpokerkumar
+# planningpoker
