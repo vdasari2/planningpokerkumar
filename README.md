@@ -1,4 +1,4 @@
 # planningpokerkumar
 
 Getting Started 
-Commit Change
+Commit Chang
