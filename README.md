@@ -1,3 +1,3 @@
 # planningpokerkumar
 
-Getting Started #
+Getting Started 
