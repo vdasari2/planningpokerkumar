@@ -10,3 +10,5 @@ Janardhan Reddy Bommireddy
 Praneeth Sai Kumar Reddy Kallam
 
 Getting Started 
+
+Moving story to ready for test to done state 
