@@ -10,3 +10,5 @@ Janardhan Reddy Bommireddy
 Praneeth Sai Kumar Reddy Kallam
  
 Moving story from new to done
+
+Getting started 
