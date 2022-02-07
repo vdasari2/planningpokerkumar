@@ -3,11 +3,11 @@
 Getting Started
 This is our project repo for SER 516 
 
-Team members:
-Vishnu Preetham Reddy Dasari 
-Cheela Saiteja Reddy
-Janardhan Reddy Bommireddy
-Praneeth Sai Kumar Reddy Kallam
+**Team members:**
+1. Vishnu Preetham Reddy Dasari 
+2. Cheela Saiteja Reddy
+3. Janardhan Reddy Bommireddy
+4. Praneeth Sai Kumar Reddy Kallam
  
 Moving story from new to done
 
