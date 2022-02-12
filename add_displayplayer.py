@@ -35,7 +35,7 @@ sub_btn=tk.Button(root,text = 'ADD',height="1",width="20", bd=8, font=('arial', 
 bg="blue",command = click)
 sub_btn.grid(row=2,column=0)
 
-exit_btn1=tk.Button(root,text='Exit', height="1",width="20", bd=8, font=('arial', 15, 'bold'), relief="groove", fg="red",command=quit)
+exit_btn1=tk.Button(root,text='EXIT', height="1",width="20", bd=8, font=('arial', 15, 'bold'), relief="groove", fg="red",command=quit)
 exit_btn1.grid(row=2,column=1)
 
 root.mainloop()
