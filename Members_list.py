@@ -1,6 +1,5 @@
 # Import Module
 # from asyncio.windows_events import NULL
-from asyncio.windows_events import NULL
 from tkinter import *
 import delta_cli
 
@@ -23,10 +22,11 @@ listbox = Listbox(root,height = 20, width = 20, selectmode=MULTIPLE)
 listbox.pack()
 
 # Listbox Items List
-items = object.do_show_players(inp="current_players")
+items = object.do_current_players(inp="current_players")
+print(type(items))
 
 # Iterate Through Items list
-if items == NULL:
+if items is None:
     items = []
 else:
     for item in items:
