@@ -23,7 +23,6 @@ listbox.pack()
 
 # Listbox Items List
 items = object.do_current_players(inp="current_players")
-print(type(items))
 
 # Iterate Through Items list
 if items is None:
