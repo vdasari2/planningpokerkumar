@@ -33,6 +33,10 @@ tree.pack()
 
 with open('/Users/vishnupreethamreddydasari/Downloads/userstories.csv') as f:
     reader = csv.DictReader(f, delimiter=',')
-    
+    for row in reader:
+        firstname = row['id']
+        lastname = row['subject']
+        address = row['description']
+        tree.insert("", 0, values=(firstname, lastname, address))
 if __name__ == '__main__':
     root.mainloop()
