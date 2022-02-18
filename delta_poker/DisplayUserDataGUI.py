@@ -31,6 +31,8 @@ tree.column('#2', stretch=NO, minwidth=0, width=200)
 tree.column('#3', stretch=NO, minwidth=0, width=900)
 tree.pack()
 
-
+with open('/Users/vishnupreethamreddydasari/Downloads/userstories.csv') as f:
+    reader = csv.DictReader(f, delimiter=',')
+    
 if __name__ == '__main__':
     root.mainloop()
