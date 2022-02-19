@@ -2,12 +2,13 @@ import tkinter as tk
 from tkinter import * 
 import turtle
 import json
-
+from game import VotingSystem
 root=tk.Tk()
 root.title("Planning poker App")
   
 root.geometry("1000x600")
-addplayer=tk.StringVar() 
+addplayer=tk.StringVar()
+addvalue=tk.StringVar()
 def click(issue_desc):
    issue_desc=addplayer.get()
    print(issue_desc)
@@ -25,18 +26,26 @@ def click(issue_desc):
    tk.messagebox.showinfo("Message",  "You have added issues")
    add_player_name=addplayer.get()
    addplayer.set("")
- #def on_Clickadd():
-  #  global a
-  # a=a+1
-   #name_label1 = tk.Label(root, text = ' Issue',bg="orange", font=('roman',15, 'bold'))
-  # name_entry1 = tk.Entry(root,textvariable = addplayer, font=('roman',15,'normal'))
-   #name_label1.grid(row=a,column=0)
-   #name_entry1.grid(row=a,column=1)  
-   #print(a)
+def on_click_submit(val):
+   val=addvalue.get()
+   print('hii')
+   print(val)
+def on_click_vote(issue):
+
+   issue=menu.get()
+   vote=StringVar()
+   vote.set("Vote value")
+   vote_entry=tk.Entry(root, textvariable=addvalue, font=('roman',15,'normal'))
+   vote_sub_btn=tk.Button(root,text='Submit',height="1",width="20", bd=8, font=('arial', 12, 'bold'), relief="groove", fg="green",
+   bg="blue",command = lambda:on_click_submit(addvalue))
+   vote_sub_btn.grid(row=4,column=3)
+   vote_entry.grid(row=4,column=2)
+
+   
+   print("After voting")
+
 issue_label = tk.Label(root, text = ' Issue',bg="orange", font=('roman',15, 'bold'))
 issue_entry = tk.Entry(root,textvariable = addplayer, font=('roman',15,'normal'))
-print(issue_entry)
-#add_btn=tk.Button(root,text = 'ADD another issue',height="1",width="20", bd=8, font=('arial', 12, 'bold'), relief="groove", fg="green",bg="blue",command = on_Clickadd)
 sub_btn=tk.Button(root,text = 'ADD',height="1",width="20", bd=8, font=('arial', 12, 'bold'), relief="groove", fg="green",
 bg="blue",command = lambda:click(addplayer))
 issue_label.grid(row=0,column=0)
@@ -57,4 +66,6 @@ menu=StringVar()
 menu.set("select issue")
 drop=OptionMenu(root,menu,*string_list)
 drop.grid(row=4,column=0)
+vote=tk.Button(root, text='Vote',height="1",width="20", bd=8, font=('arial', 12, 'bold'), relief="groove", fg="green", bg="blue", command=lambda:on_click_vote(menu))
+vote.grid(row=4,column=1)
 root.mainloop()
