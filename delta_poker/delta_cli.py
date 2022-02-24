@@ -1,16 +1,199 @@
 import argparse
 import json
+from logging import root
+from numpy import tile
 import requests
 import time
-
+import tkinter as tk
 from cmd import Cmd
 from fastapi import status
 from pathlib import Path
+from tkinter import *
+from tkinter import messagebox
 
 
 class MyPrompt(Cmd):
+    def help_screen():
+        help_window = Tk()
+        
+        #text=Text(root)
+        help_window.title("Help Screen")
+        help_window.configure(bg='gray')
+
+        EOF_label = Label(help_window, text = "1. add_player - This is used to register player's to the game")
+        EOF_label.grid(column = 10, row = 10)
+
+        new_game_lbl = Label(help_window, text = "2. new_game - Used to start a new game by dealer")
+        new_game_lbl.grid(column = 10, row = 20)
+
+        add_player_label = Label(help_window, text = "3. add_issues - To add the issues for the current game")
+        add_player_label.grid(column = 10, row = 30)
+
+        current_players_lbl = Label(help_window, text = "4. current_players - Used to display the list of current players any Team Member can run")
+        current_players_lbl.grid(column = 10, row = 40)
+
+        EOF_lbl = Label(help_window, text = "5. EOF - This is used to exit from the planning poker game")
+        EOF_lbl.grid(column = 10, row = 50)
+
+        current_issue_lbl = Label(help_window, text = "6. current_issue - This is used for displaying the current issue")
+        current_issue_lbl.grid(column = 10, row = 60)
+
+        voting_system_lbl = Label(help_window, text = "7. voting_system - To see the voting system to be used in the game, a user can run this command")
+        voting_system_lbl.grid(column = 10, row = 70)
+
+        next_issue_lbl = Label(help_window, text = "8. next_issue - This is used to go to the next issue")
+        next_issue_lbl.grid(column = 10, row = 80)
+
+        previous_issue_lbl = Label(help_window, text = "9. previous_issue - This is used to go to the previous issue")
+        previous_issue_lbl.grid(column = 10, row = 90)
+
+        vote_issue_lbl = Label(help_window, text = "10. vote_issue - For voting on the current issue")
+        vote_issue_lbl.grid(column = 10, row = 100)
+
+        exit_lbl = Label(help_window, text = "11. exit - This is used to exit from the planning poker game")
+        exit_lbl.grid(column = 10, row = 110)
+
+        help_lbl = Label(help_window, text = "12. help - Each player can run help to see which commands are available and documented.")
+        help_lbl.grid(column = 10, row = 120)
+
+        user_count_lbl = Label(help_window, text = "13. user_count - This is used to show the number of players in the game")
+        user_count_lbl.grid(column = 10, row = 130)
+
+        show_report_lbl = Label(help_window, text = "14. show_report - Used to show For showing the final report on the current issue")
+        show_report_lbl.grid(column = 10, row = 140)
+
+        reset_votes_lbl = Label(help_window, text = "15. re set_votes - This is used to reset the votes of an issue")
+        reset_votes_lbl.grid(column = 10, row = 150)
+
+        remove_player_lbl = Label(help_window, text = "16. remove_player - This is used to remove player's from the game")
+        remove_player_lbl.grid(column = 10, row = 160)
+
+        current_dealer_lbl = Label(help_window, text = "17. current_dealer - This is used to display the current dealer")
+        current_dealer_lbl.grid(column = 10, row = 170)
+
+        help_window.mainloop()
+
+    
+
+
+    
+    
+    def start_screen():
+        
+        start_window = Tk()
+        start_window.title("Start Screen")
+        start_window.geometry('1000x600')
+        start_window.configure(bg='gray')
+        
+        
+        labe1 = LabelFrame(start_window, text = 'Welcome! This is the starting page of planning poker')
+        labe1.pack(expand = 'yes', fill = 'both')
+
+ 
+
+
+        def do_add_player():
+            #self.username=username
+            player_window=Tk()
+            player_window.title("Planning poker App")
+            player_window.geometry("1000x600")
+            player_window.configure(bg='gray')
+
+            def submitaddplayer(): 
+                print("name",name_entry.get())
+                players.append(name_entry.get())
+                print(players)
+                tk.messagebox.showinfo("Message",  "You have registered as a player "+name_entry.get())
+                
+                showNames()
+
+            def showNames():
+
+                for i in range(len(players)):
+                    txt = tk.Text(player_window,height="1",width="20", bd=8, relief="groove",font=('arial', 15, 'bold'))
+                    txt.grid(row=5,column=i)
+                    txt.insert(tk.END,players[i])
+
+            name_label = tk.Label(player_window, text = 'Player Name', fg="white", bg="orange",relief="groove", font=('arial',15, 'bold'))
+            name_label.grid(row=0,column=0)
+
+            name_entry = tk.Entry(player_window,font=('roman',15,'normal'))
+            name_entry.grid(row=0,column=1)
+
+
+            sub_btn=tk.Button(player_window,text = 'ADD',height="1",width="20", bd=8, font=('arial', 15, 'bold'), relief="groove", fg="green",
+            bg="blue",command = submitaddplayer)
+            sub_btn.grid(row=2,column=0)
+            
+
+            exit_btn1=tk.Button(player_window,text='EXIT', height="1",width="20", bd=8, font=('arial', 15, 'bold'), relief="groove", fg="red",command=quit)
+            exit_btn1.grid(row=2,column=1)
+
+            player_window.mainloop()
+
+
+    
+        
+
+        def view_players():
+            players_window= Tk()
+            players_window.title("Current List of Players")
+            players_window.geometry('1000x600')
+            players_window.configure(bg='gray')
+            view_players_window_label = Label (players_window, text = "List of players",font=('arial', 10, 'bold'), relief="groove", fg="green",)
+            view_players_window_label.grid(row = 100, column = 100)
+            
+            print(players)
+            a = len(players)
+            et = ''
+            for i in range(a):
+                et = et + players[i]+'\n' 
+                EOF_lbl1 = Label(players_window, text = et,font=('arial', 12, 'bold'), relief="groove", fg="green")
+                EOF_lbl1.grid(column = 100, row = 300)
+
+                print(et)
+           
+
+            btn12=Button(players_window,text = 'CLOSE',font=('arial', 12, 'bold'), relief="groove", fg="red",command=quit)
+            btn12.grid(row=400,column=500)
+
+            players_window.mainloop()    
+
+
+
+        players=[] 
+        title=[]  
+        desc=[]
+        addplayer=tk.StringVar()
+        addvalue=tk.StringVar()
+        
+        btn3=Button(labe1,text = 'ADD PLAYER',font=('arial', 12, 'bold'), relief="groove", fg="green",command=do_add_player)
+        btn3.grid(row=200,column=500)
+
+        btn5=Button(labe1,text = 'VIEW CURRENT PLAYERS', font=('arial', 12, 'bold'), relief="groove", fg="green", command = view_players)
+        btn5.grid(row=300,column=500)
+
+
+        
+        start_window.mainloop()
+    
+    
     prompt = 'planning_poker> '
     intro = "Welcome to a nice game of Planning Poker!\nType ? to list commands"
+    root = tk.Tk()
+    root.geometry('1000x600')
+    root.configure(bg='gray')
+    
+    label_frame = LabelFrame(root, text = 'Click "START" button to start the game. Click on "HELP" button to know the commands.')
+    label_frame.pack(expand = 'yes', fill = 'both')
+
+    btn2=tk.Button(root,text='HELP', height="1",width="15", bd=8, font=('arial', 15, 'bold'), relief="groove", fg="red",command=help_screen)
+    btn2.place(x = 400, y = 200)
+    btn1=tk.Button(root,text='START', height="1",width="15", bd=8, font=('arial', 15, 'bold'), relief="groove", fg="green",command=start_screen)
+    btn1.place(x = 200, y = 200)
+
+    
+    mainloop()
 
     default_config_params = {"max_retries": 5,
                              "show_timeout": 1,
