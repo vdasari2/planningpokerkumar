@@ -157,7 +157,18 @@ class MyPrompt(Cmd):
             btn12=Button(players_window,text = 'CLOSE',font=('arial', 12, 'bold'), relief="groove", fg="red",command=quit)
             btn12.grid(row=400,column=500)
 
-            players_window.mainloop()    
+            players_window.mainloop()
+
+
+        def get_current_dealer():
+ 
+            if len(players)!=0:
+                messagebox.showinfo("Current Dealer", "The current dealer is " +players[0])
+
+            else:
+
+                messagebox.showinfo("Current Dealer", "Please add players ")            
+                
 
 
 
@@ -172,6 +183,9 @@ class MyPrompt(Cmd):
 
         btn5=Button(labe1,text = 'VIEW CURRENT PLAYERS', font=('arial', 12, 'bold'), relief="groove", fg="green", command = view_players)
         btn5.grid(row=300,column=500)
+        
+        btn10=Button(labe1,text = 'DISPLAY CURRENT DEALER', font=('arial', 12, 'bold'), relief="groove", fg="green", command = get_current_dealer)
+        btn10.grid(row=400,column=500)
 
 
         
