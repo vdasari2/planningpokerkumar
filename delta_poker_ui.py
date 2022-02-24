@@ -5,10 +5,10 @@ import json
 from game import VotingSystem
 root=tk.Tk()
 root.title("Planning poker App")
-  
 root.geometry("1000x600")
 addplayer=tk.StringVar()
 addvalue=tk.StringVar()
+username="janardhan"
 def click(issue_desc):
    issue_desc=addplayer.get()
    print(issue_desc)
@@ -26,24 +26,49 @@ def click(issue_desc):
    tk.messagebox.showinfo("Message",  "You have added issues")
    add_player_name=addplayer.get()
    addplayer.set("")
-def on_click_submit(val):
+def on_click_submit(val,vote_issue):
    val=addvalue.get()
+   print(vote_issue)
+   with open('/Users/janardhanreddybommireddy/Desktop/delta_poker/examples/vote.json','r') as openfile:
+      vote_file=json.load(openfile)
+   for i in vote_file:
+      prev_vot_list=i
+      print(prev_vot_list)
+      if (username==prev_vot_list['username']) and (vote_issue==prev_vot_list['description']):
+         tk.messagebox.showinfo("Message_already_vote",  "You have already given the vote to the issue")
+      else:
+         add_vote={"username":username,"description":vote_issue,"vote":val}
+         vote_file.append(add_vote)
+         inp_vote=json.dumps(vote_file)
+         with open('/Users/janardhanreddybommireddy/Desktop/delta_poker/examples/vote.json','w') as outfile:
+            outfile.write(inp_vote)
+         tk.messagebox.showinfo("Message1",  "You have added vote")
+         val.set("")
    print('hii')
    print(val)
 def on_click_vote(issue):
-
    issue=menu.get()
    vote=StringVar()
    vote.set("Vote value")
    vote_entry=tk.Entry(root, textvariable=addvalue, font=('roman',15,'normal'))
    vote_sub_btn=tk.Button(root,text='Submit',height="1",width="20", bd=8, font=('arial', 12, 'bold'), relief="groove", fg="green",
-   bg="blue",command = lambda:on_click_submit(addvalue))
+   bg="blue",command = lambda:on_click_submit(addvalue,issue))
    vote_sub_btn.grid(row=4,column=3)
    vote_entry.grid(row=4,column=2)
-
-   
    print("After voting")
-
+def on_click_show_result(issue):
+   issue=menu.get()
+   with open('/Users/janardhanreddybommireddy/Desktop/delta_poker/examples/vote.json','r') as openfile:
+      vote_file=json.load(openfile)
+      result_vote=[]
+   for i in vote_file:
+      print(i)
+      if(issue==i['description']):
+            result_vote.append(i['vote'])
+            print(result_vote)
+   vote_result=tk.Label(root,text=result_vote,bg="black", font=('roman',15, 'bold'))
+   vote_result.grid(row=5,column=1)
+   vote_result.set("")
 issue_label = tk.Label(root, text = ' Issue',bg="orange", font=('roman',15, 'bold'))
 issue_entry = tk.Entry(root,textvariable = addplayer, font=('roman',15,'normal'))
 sub_btn=tk.Button(root,text = 'ADD',height="1",width="20", bd=8, font=('arial', 12, 'bold'), relief="groove", fg="green",
@@ -61,11 +86,14 @@ string_list=[]
 for list_value in json_object:
    desc_list= list_value
    string_list.append(desc_list["description"])
-print(string_list)   
-menu=StringVar()
+print(string_list)
+menu=tk.StringVar()
 menu.set("select issue")
 drop=OptionMenu(root,menu,*string_list)
 drop.grid(row=4,column=0)
 vote=tk.Button(root, text='Vote',height="1",width="20", bd=8, font=('arial', 12, 'bold'), relief="groove", fg="green", bg="blue", command=lambda:on_click_vote(menu))
 vote.grid(row=4,column=1)
+result=tk.Button(root,text='Show result',height="1",width="20", bd=8, font=('arial', 12, 'bold'), relief="groove", fg="green",
+bg="blue",command = lambda:on_click_show_result(menu))
+result.grid(row=5,column=0)
 root.mainloop()
