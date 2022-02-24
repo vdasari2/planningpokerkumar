@@ -50,7 +50,13 @@ def epics():
     tree.column('#3', stretch=NO, minwidth=0, width=900)
     tree.pack()
 
-   
+    with open('/Users/vishnupreethamreddydasari/Downloads/epics.csv', 'r') as f:
+        reader = csv.DictReader(f, delimiter=',')
+        for row in reader:
+            firstname = row['id']
+            lastname = row['subject']
+            address = row['description']
+            tree.insert("", 0, values=(firstname, lastname, address))
 
 root = Tk()
 root.title("Display Epics Data")
