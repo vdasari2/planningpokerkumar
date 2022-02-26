@@ -168,7 +168,15 @@ class MyPrompt(Cmd):
             else:
 
                 messagebox.showinfo("Current Dealer", "Please add players ")            
-                
+        def user_count():
+            z=len(players)
+            user_count_players= Tk()
+            user_count_players.title("Total Number of Players")
+            user_count_players.geometry('1000x600')
+            user_count_players.configure(bg='gray')
+            view_players_window_label = Label (user_count_players, text =z,font=('arial', 10, 'bold'), relief="groove", fg="green",)
+            view_players_window_label.grid(row = 100, column = 100)
+            user_count_players.mainloop()         
 
 
 
@@ -186,7 +194,8 @@ class MyPrompt(Cmd):
         
         btn10=Button(labe1,text = 'DISPLAY CURRENT DEALER', font=('arial', 12, 'bold'), relief="groove", fg="green", command = get_current_dealer)
         btn10.grid(row=400,column=500)
-
+        btn10=Button(labe1,text = 'DISPLAY CURRENT USER COUNT', font=('arial', 12, 'bold'), relief="groove", fg="green", command = user_count)
+        btn10.grid(row=500,column=500)
 
         
         start_window.mainloop()
