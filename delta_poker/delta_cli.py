@@ -16,89 +16,53 @@ class MyPrompt(Cmd):
     def help_screen():
         help_window = Tk()
         
-        #text=Text(root)
         help_window.title("Help Screen")
-        help_window.configure(bg='gray')
+        label1 = Label(help_window, text = 'Have a look at these instructions! This will make you easy to understand the game and the code',bd=8, font=('Helvetica', 26, 'bold'),fg="black")
+        label1.grid(column = 10, row = 0)
 
-        EOF_label = Label(help_window, text = "1. add_player - This is used to register player's to the game",fg='blue', font=("Helvetica", 16))
-        EOF_label.grid(column = 10, row = 10)
+        label2 = Label(help_window, text = "1. add_player - This is used to register player's to the game \n 2. new_game - Used to start a new game by dealer",fg='black', font=("Helvetica", 16))
+        label2.grid(column = 10, row = 10)
 
-        new_game_lbl = Label(help_window, text = "2. new_game - Used to start a new game by dealer",fg='blue', font=("Helvetica", 16))
-        new_game_lbl.grid(column = 10, row = 20)
+        label3 = Label(help_window, text = "3. add_issues - To add the issues for the current game \n 4. current_players - Used to display the list of current players any Team Member can run",fg='black', font=("Helvetica", 16))
+        label3.grid(column = 10, row = 20)
 
-        add_player_label = Label(help_window, text = "3. add_issues - To add the issues for the current game",fg='blue', font=("Helvetica", 16))
-        add_player_label.grid(column = 10, row = 30)
+        label4 = Label(help_window, text = "5. EOF - This is used to exit from the planning poker game \n 6. current_issue - This is used for displaying the current issue",fg='black', font=("Helvetica", 16))
+        label4.grid(column = 10, row = 30)
 
-        current_players_lbl = Label(help_window, text = "4. current_players - Used to display the list of current players any Team Member can run",fg='blue', font=("Helvetica", 16))
-        current_players_lbl.grid(column = 10, row = 40)
+        label5 = Label(help_window, text = "7. voting_system - To see the voting system to be used in the game, a user can run this command \n 8. next_issue - This is used to go to the next issue",fg='black', font=("Helvetica", 16))
+        label5.grid(column = 10, row = 40)
 
-        EOF_lbl = Label(help_window, text = "5. EOF - This is used to exit from the planning poker game",fg='blue', font=("Helvetica", 16))
-        EOF_lbl.grid(column = 10, row = 50)
+        label6 = Label(help_window, text = "9. previous_issue - This is used to go to the previous issue \n 10. vote_issue - For voting on the current issue",fg='black', font=("Helvetica", 16))
+        label6.grid(column = 10, row = 50)
 
-        current_issue_lbl = Label(help_window, text = "6. current_issue - This is used for displaying the current issue",fg='blue', font=("Helvetica", 16))
-        current_issue_lbl.grid(column = 10, row = 60)
+        label7 = Label(help_window, text = "11. exit - This is used to exit from the planning poker game \n 12. help - Each player can run help to see which commands are available and documented.",fg='black', font=("Helvetica", 16))
+        label7.grid(column = 10, row = 60)
 
-        voting_system_lbl = Label(help_window, text = "7. voting_system - To see the voting system to be used in the game, a user can run this command",fg='blue', font=("Helvetica", 16))
-        voting_system_lbl.grid(column = 10, row = 70)
+        label8 = Label(help_window, text = "13. user_count - This is used to show the number of players in the game \n 14. show_report - Used to show For showing the final report on the current issue",fg='black', font=("Helvetica", 16))
+        label8.grid(column = 10, row = 70)
 
-        next_issue_lbl = Label(help_window, text = "8. next_issue - This is used to go to the next issue",fg='blue', font=("Helvetica", 16))
-        next_issue_lbl.grid(column = 10, row = 80)
+        label9 = Label(help_window, text = "15. re set_votes - This is used to reset the votes of an issue \n 16. remove_player - This is used to remove player's from the game",fg='black', font=("Helvetica", 16))
+        label9.grid(column = 10, row = 80)
 
-        previous_issue_lbl = Label(help_window, text = "9. previous_issue - This is used to go to the previous issue",fg='blue', font=("Helvetica", 16))
-        previous_issue_lbl.grid(column = 10, row = 90)
-
-        vote_issue_lbl = Label(help_window, text = "10. vote_issue - For voting on the current issue",fg='blue', font=("Helvetica", 16))
-        vote_issue_lbl.grid(column = 10, row = 100)
-
-        exit_lbl = Label(help_window, text = "11. exit - This is used to exit from the planning poker game",fg='blue', font=("Helvetica", 16))
-        exit_lbl.grid(column = 10, row = 110)
-
-        help_lbl = Label(help_window, text = "12. help - Each player can run help to see which commands are available and documented.",fg='blue', font=("Helvetica", 16))
-        help_lbl.grid(column = 10, row = 120)
-
-        user_count_lbl = Label(help_window, text = "13. user_count - This is used to show the number of players in the game",fg='blue', font=("Helvetica", 16))
-        user_count_lbl.grid(column = 10, row = 130)
-
-        show_report_lbl = Label(help_window, text = "14. show_report - Used to show For showing the final report on the current issue",fg='blue', font=("Helvetica", 16))
-        show_report_lbl.grid(column = 10, row = 140)
-
-        reset_votes_lbl = Label(help_window, text = "15. re set_votes - This is used to reset the votes of an issue",fg='blue', font=("Helvetica", 16))
-        reset_votes_lbl.grid(column = 10, row = 150)
-
-        remove_player_lbl = Label(help_window, text = "16. remove_player - This is used to remove player's from the game",fg='blue', font=("Helvetica", 16))
-        remove_player_lbl.grid(column = 10, row = 160)
-
-        current_dealer_lbl = Label(help_window, text = "17. current_dealer - This is used to display the current dealer",fg='blue', font=("Helvetica", 16))
-        current_dealer_lbl.grid(column = 10, row = 170)
+        label10 = Label(help_window, text = "17. current_dealer - This is used to display the current dealer",fg='black', font=("Helvetica", 16))
+        label10.grid(column = 10, row = 90)
 
         help_window.mainloop()
-
-    
-
-
-    
     
     def start_screen():
         
         start_window = Tk()
         start_window.title("Start Screen")
-        start_window.geometry('1000x600')
-        start_window.configure(bg='gray')
+        start_window.geometry('700x400')
+        labe1 = Label(start_window, text = 'Welcome! This is the starting page of planning poker',bd=8, font=('Helvetica', 16, 'bold'), relief="groove", fg="black")
+        labe1.config(anchor="center")
+        labe1.pack()
         
-        
-        labe1 = LabelFrame(start_window, text = 'Welcome! This is the starting page of planning poker',bd=8, font=('Helvetica', 16, 'bold'), relief="groove", fg="black")
-        labe1.pack(expand = 'yes', fill = 'both')
-
- 
-
-
         def do_add_player():
-            #self.username=username
             player_window=Tk()
-            player_window.title("Planning poker App")
-            player_window.geometry("1000x600")
-            player_window.configure(bg='gray')
-
+            player_window.title("Add Player to the game")
+            player_window.geometry("800x300")
+            
             def submitaddplayer(): 
                 print("name",name_entry.get())
                 players.append(name_entry.get())
@@ -110,7 +74,7 @@ class MyPrompt(Cmd):
             def showNames():
 
                 for i in range(len(players)):
-                    txt = tk.Text(player_window,height="1",width="20", bd=8, relief="groove",fg='green', font=("Helvetica", 16))
+                    txt = tk.Text(player_window,height="1",width="15", bd=8, relief="groove",fg='green', font=("Helvetica", 16))
                     txt.grid(row=5,column=i)
                     txt.insert(tk.END,players[i])
 
@@ -138,24 +102,26 @@ class MyPrompt(Cmd):
         def view_players():
             players_window= Tk()
             players_window.title("Current List of Players")
-            players_window.geometry('1000x600')
-            players_window.configure(bg='gray')
-            view_players_window_label = Label (players_window, text = "List of players",font=('Helvetica', 16, 'bold'),fg="green")
+            players_window.geometry('600x300')
+            view_players_window_label = Label(players_window, text = "List of players are:",font=('Helvetica', 24, 'bold'),fg="green")
             view_players_window_label.grid(row = 100, column = 100)
+            view_players_window_label.config(anchor=CENTER)
+            view_players_window_label.pack()
             
             print(players)
             a = len(players)
             et = ''
             for i in range(a):
                 et = et + players[i]+'\n' 
-                EOF_lbl1 = Label(players_window, text = et,font=('Helvetica', 12, 'bold'), relief="groove", fg="green")
-                EOF_lbl1.grid(column = 100, row = 300)
+                EOF_lbl1 = Label(players_window, text = et,font=('Helvetica', 20, 'bold'), relief="groove", fg="green")
+                EOF_lbl1.config(anchor=CENTER)
+                EOF_lbl1.pack()
 
-                print(et)
+                
            
 
-            btn12=Button(players_window,text = 'CLOSE',font=('Helvetica', 12, 'bold'), relief="groove", fg="red",command=quit)
-            btn12.grid(row=400,column=500)
+            btn12=Button(players_window,text = 'CLOSE',font=('Helvetica', 18, 'bold'), relief="groove", fg="red",command=quit)
+            btn12.pack(fill=NONE)
 
             players_window.mainloop()
 
@@ -172,48 +138,56 @@ class MyPrompt(Cmd):
             z=len(players)
             user_count_players= Tk()
             user_count_players.title("Total Number of Players")
-            user_count_players.geometry('1000x600')
-            user_count_players.configure(bg='gray')
-            view_players_window_label = Label (user_count_players, text =z,font=('Helvetica', 10, 'bold'), relief="groove", fg="green")
+            user_count_players.geometry('600x200')
+            view_players_window_label = Label(user_count_players,text = ("The number of users in the game are:",z),font=('Helvetica', 24, 'bold'), relief="groove", fg="green")
             view_players_window_label.grid(row = 100, column = 100)
-            user_count_players.mainloop()         
+            view_players_window_label.config(anchor=CENTER)
+            view_players_window_label.pack()
+            user_count_players.mainloop()        
 
 
 
         players=[] 
-        title=[]  
-        desc=[]
-        addplayer=tk.StringVar()
-        addvalue=tk.StringVar()
         
-        btn3=Button(labe1,text = 'ADD PLAYER',font=('Helvetica', 12, 'bold'), relief="groove", fg="green",command=do_add_player)
-        btn3.grid(row=200,column=500)
+        btn3=Button(start_window,text = 'ADD PLAYER',font=('Helvetica', 20, 'bold'), relief="groove", fg="green",command=do_add_player)
+        btn3.config(anchor=CENTER)
+        btn3.pack(fill=NONE)
+        btn3.pack()
 
-        btn5=Button(labe1,text = 'VIEW CURRENT PLAYERS', font=('Helvetica', 12, 'bold'), relief="groove", fg="green", command = view_players)
-        btn5.grid(row=300,column=500)
+        btn5=Button(start_window,text = 'VIEW CURRENT PLAYERS', font=('Helvetica', 20, 'bold'), relief="groove", fg="green", command = view_players)
+        btn5.config(anchor=CENTER)
+        btn5.pack(fill=NONE)
+        btn5.pack()
         
-        btn10=Button(labe1,text = 'DISPLAY CURRENT DEALER', font=('Helvetica', 12, 'bold'), relief="groove", fg="green", command = get_current_dealer)
-        btn10.grid(row=400,column=500)
-        btn10=Button(labe1,text = 'DISPLAY CURRENT USER COUNT', font=('Helvetica', 12, 'bold'), relief="groove", fg="green", command = user_count)
-        btn10.grid(row=500,column=500)
+        btn10=Button(start_window,text = 'DISPLAY CURRENT DEALER', font=('Helvetica', 20, 'bold'), relief="groove", fg="green", command = get_current_dealer)
+        btn10.config(anchor=CENTER)
+        btn10.pack(fill=NONE)
+        btn10.pack()
+        btn11=Button(start_window,text = 'DISPLAY CURRENT USER COUNT', font=('Helvetica', 20, 'bold'), relief="groove", fg="green", command = user_count)
+        btn11.config(anchor=CENTER)
+        btn11.pack(fill=NONE)
+        btn11.pack()
 
         
         start_window.mainloop()
     
-    
-    prompt = 'planning_poker> '
-    intro = "Welcome to a nice game of Planning Poker!\nType ? to list commands"
     root = tk.Tk()
-    root.geometry('1000x600')
-    root.configure(bg='gray')
+    root.geometry('700x400')
+
+    label = Label(root, text = 'Planning Poker',bd=8, font=('Helvetica', 26, 'bold'), relief="groove", fg="black")
+    label.config(anchor=CENTER)
+    label.pack()
     
-    label_frame = LabelFrame(root, text = 'Click "START" button to start the game. Click on "HELP" button to know the commands.',bd=8, font=('Helvetica', 16, 'bold'), relief="groove", fg="green")
-    label_frame.pack(expand = 'yes', fill = 'both')
+    label1 = Label(root, text = 'Click "START" button to start the game. Click on "HELP" button to know the commands.',bd=8, font=('Helvetica', 16, 'bold'), relief="groove", fg="green")
+    label1.config(anchor="center")
+    label1.pack()
+
+    btn1=tk.Button(root,text='START', height="1",width="15", bd=8, font=('Helvetica', 15, 'bold'), relief="groove", fg="green",command=start_screen)
+    btn1.pack(fill=NONE)
 
     btn2=tk.Button(root,text='HELP', height="1",width="15", bd=8, font=('Helvetica', 15, 'bold'), relief="groove", fg="red",command=help_screen)
-    btn2.place(x = 400, y = 200)
-    btn1=tk.Button(root,text='START', height="1",width="15", bd=8, font=('Helvetica', 15, 'bold'), relief="groove", fg="green",command=start_screen)
-    btn1.place(x = 200, y = 200)
+    btn2.pack(fill=NONE)
+    
 
     
     mainloop()
