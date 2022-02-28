@@ -145,7 +145,10 @@ class MyPrompt(Cmd):
             view_players_window_label.pack()
             user_count_players.mainloop()        
 
-
+        def game_new():
+            new_game_window = Tk()
+            new_game_window.title("Start a New Game")
+            new_game_window.geometry('600x200')
 
         players=[] 
         
@@ -168,7 +171,7 @@ class MyPrompt(Cmd):
         btn11.pack(fill=NONE)
         btn11.pack()
         
-        btn12=Button(start_window,text = 'VOTING SYSTEM', font=('Helvetica', 20, 'bold'), relief="groove", fg="green")
+        btn12=Button(start_window,text = 'VOTING SYSTEM', font=('Helvetica', 20, 'bold'), relief="groove", fg="green", command= game_new)
         btn12.config(anchor=CENTER)
         btn12.pack(fill=NONE)
         btn12.pack()
