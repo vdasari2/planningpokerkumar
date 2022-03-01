@@ -167,11 +167,16 @@ class MyPrompt(Cmd):
         btn11.config(anchor=CENTER)
         btn11.pack(fill=NONE)
         btn11.pack()
-        
+
         btn12=Button(start_window,text = 'VOTING SYSTEM', font=('Helvetica', 20, 'bold'), relief="groove", fg="green")
         btn12.config(anchor=CENTER)
         btn12.pack(fill=NONE)
         btn12.pack()
+
+        btn13=Button(start_window,text = 'NEW GAME', font=('Helvetica', 20, 'bold'), relief="groove", fg="green")
+        btn13.config(anchor=CENTER)
+        btn13.pack(fill=NONE)
+        btn13.pack()
 
 
         
