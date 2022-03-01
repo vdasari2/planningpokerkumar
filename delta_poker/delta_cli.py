@@ -150,6 +150,12 @@ class MyPrompt(Cmd):
             new_game_window.title("Start a New Game")
             new_game_window.geometry('600x200')
 
+            view_players_window_label = Label(new_game_window,text ="HELLO!\n  New Game has started and Voting System is'['0','1','2','3','5','8','13','21']\n Add Players to Vote",font=('Helvetica', 18),fg="black")
+            view_players_window_label.grid(row = 100, column = 100)
+            view_players_window_label.config(anchor=CENTER)
+            view_players_window_label.pack()
+            view_players_window_label.mainloop()
+
         players=[] 
         
         btn3=Button(start_window,text = 'ADD PLAYER',font=('Helvetica', 20, 'bold'), relief="groove", fg="green",command=do_add_player)
