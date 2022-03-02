@@ -194,6 +194,16 @@ class MyPrompt(Cmd):
             new_game_window.title("Start a New Game")
             new_game_window.geometry('600x200')
 
+        def new_game():
+            players_window= Tk()
+            players_window.title("Start a new game")
+            players_window.geometry('600x300')
+            view_players_window_label = Label(players_window,text ="HELLO! New game has been started and Voting System'['0','1','2','3','5','8','13','21','34','55','89',?,'Coffee']' add players to play",font=('Helvetica', 10),fg="green")
+            view_players_window_label.grid(row = 100, column = 100)
+            view_players_window_label.config(anchor=CENTER)
+            view_players_window_label.pack()
+            view_players_window_label.mainloop()
+
         players=[] 
         
         btn3=Button(start_window,text = 'ADD PLAYER',font=('Helvetica', 20, 'bold'), relief="groove", fg="green",command=do_add_player)
@@ -221,10 +231,17 @@ class MyPrompt(Cmd):
         btn12.pack(fill=NONE)
         btn12.pack()
 
+
+        btn14=Button(start_window,text = 'NEW GAME', font=('Helvetica', 20, 'bold'), relief="groove", fg="green", command= new_game)
+        btn14.config(anchor=CENTER)
+        btn14.pack(fill=NONE)
+        btn14.pack()
+
         btn12=Button(start_window,text = 'REMOVE PLAYERS', font=('Helvetica', 20, 'bold'), relief="groove", fg="green", command= do_remove_player)
         btn12.config(anchor=CENTER)
         btn12.pack(fill=NONE)
         btn12.pack()
+        main
 
 
         
