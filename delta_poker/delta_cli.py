@@ -94,10 +94,7 @@ class MyPrompt(Cmd):
             exit_btn1.grid(row=2,column=1)
 
             player_window.mainloop()
-
-
-    
-        
+            
 
         def view_players():
             players_window= Tk()
@@ -124,6 +121,53 @@ class MyPrompt(Cmd):
             btn12.pack(fill=NONE)
 
             players_window.mainloop()
+        
+        def do_remove_player():
+            players_window= Tk()
+            players_window.title("Current List of Players")
+            players_window.geometry('600x300')
+            view_players_window_label = Label(players_window, text = "List of players are:",font=('Helvetica', 24, 'bold'),fg="green")
+            view_players_window_label.grid(row = 100, column = 100)
+            view_players_window_label.config(anchor=CENTER)
+            view_players_window_label.pack()
+
+            
+            # Function will remove selected Listbox items
+            def remove_item():
+                selected_checkboxs = listbox.curselection()
+                for selected_checkbox in selected_checkboxs[::-1]:
+                    listbox.delete(selected_checkbox)
+
+                # def refresh():
+                #     exec("Members_list.py",globals())
+
+                # # Create Object
+                # root = Tk()
+
+                # Set Geometry
+                # root.geometry("500x500")
+
+                # Add Listbox
+            listbox = Listbox(players_window,height = 10, width = 15, selectmode=MULTIPLE)
+            listbox.pack()
+
+                # Listbox Items List
+                # items = object.do_current_players(inp="current_players")
+                # print(type(items))
+
+                # Iterate Through Items list
+            for item in players:
+                listbox.insert(END, item)
+
+
+                # photo = PhotoImage(file = r"/Users/praneethkallam/SER-516-Project/delta_poker/reloading.png")
+                # photoimage = photo.subsample(3, 3)
+                # a = Button(root, text="Refresh", image = photoimage, compound = LEFT, command = refresh).pack()
+            b = Button(players_window, text="delete",command=remove_item).pack()
+
+                # Execute Tkinter
+            players_window.mainloop()
+
 
 
         def get_current_dealer():
@@ -150,12 +194,6 @@ class MyPrompt(Cmd):
             new_game_window.title("Start a New Game")
             new_game_window.geometry('600x200')
 
-            view_players_window_label = Label(new_game_window,text ="HELLO!\n  New Game has started and Voting System is'['0','1','2','3','5','8','13','21']\n Add Players to Vote",font=('Helvetica', 18),fg="black")
-            view_players_window_label.grid(row = 100, column = 100)
-            view_players_window_label.config(anchor=CENTER)
-            view_players_window_label.pack()
-            view_players_window_label.mainloop()
-
         players=[] 
         
         btn3=Button(start_window,text = 'ADD PLAYER',font=('Helvetica', 20, 'bold'), relief="groove", fg="green",command=do_add_player)
@@ -172,25 +210,21 @@ class MyPrompt(Cmd):
         btn10.config(anchor=CENTER)
         btn10.pack(fill=NONE)
         btn10.pack()
+
         btn11=Button(start_window,text = 'DISPLAY CURRENT USER COUNT', font=('Helvetica', 20, 'bold'), relief="groove", fg="green", command = user_count)
         btn11.config(anchor=CENTER)
         btn11.pack(fill=NONE)
         btn11.pack()
-
-
-
-
         
         btn12=Button(start_window,text = 'VOTING SYSTEM', font=('Helvetica', 20, 'bold'), relief="groove", fg="green", command= game_new)
-
         btn12.config(anchor=CENTER)
         btn12.pack(fill=NONE)
         btn12.pack()
 
-        btn13=Button(start_window,text = 'NEW GAME', font=('Helvetica', 20, 'bold'), relief="groove", fg="green")
-        btn13.config(anchor=CENTER)
-        btn13.pack(fill=NONE)
-        btn13.pack()
+        btn12=Button(start_window,text = 'REMOVE PLAYERS', font=('Helvetica', 20, 'bold'), relief="groove", fg="green", command= do_remove_player)
+        btn12.config(anchor=CENTER)
+        btn12.pack(fill=NONE)
+        btn12.pack()
 
 
         
