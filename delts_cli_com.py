@@ -222,16 +222,29 @@ class MyPrompt(Cmd):
             for list_value in json_object:
                 desc_list= list_value
                 string_list.append(desc_list["description"])
-            select_issue_label = Label(selectissue, text = 'selectissue',bg="orange", font=('roman',15, 'bold'))
+            select_issue_label = tk.Label(selectissue, text = 'selectissue',bg="orange", font=('roman',15, 'bold'))
             select_issue_label.grid(row=0,column=0)
             menu=tk.StringVar()
             menu.set("select issue")
-            drop=OptionMenu(selectissue,menu,*string_list)
+            drop=tk.OptionMenu(selectissue,menu,*string_list)
             drop.grid(row=0,column=1)
             print(menu)
             vote=Button(selectissue, text='Vote',height="1",width="20", bd=8, font=('arial', 12, 'bold'), relief="groove", fg="green", bg="blue", command=on_click_vote)
             vote.grid(row=0,column=2)
             selectissue.mainloop()
+
+        def delete_issue_vote():
+            delete_issue=menu.get()
+            print(delete_issue)
+            with open('/Users/janardhanreddybommireddy/Desktop/delta_poker/examples/vote.json','r')   as openfile:
+                votes=json.load(openfile)
+            for result in votes:
+                if(delete_issue==result['description']):
+                    votes.remove(result)
+                    print(votes)
+            final_votes=json.dumps(votes)
+            with open('/Users/janardhanreddybommireddy/Desktop/delta_poker/examples/vote.json','w')   as outfile:
+                outfile.write(final_votes)
         players=[]
         
         
@@ -269,6 +282,10 @@ class MyPrompt(Cmd):
         btn14.pack(fill=NONE)
         btn14.pack()
 
+        btn15=Button(start_window,text = 'Refresh votes for the issue', font=('Helvetica', 20, 'bold'), relief="groove", fg="green", command= delete_issue_vote)
+        btn15.config(anchor=CENTER)
+        btn15.pack(fill=NONE)
+        btn15.pack()
         
         start_window.mainloop()
     
