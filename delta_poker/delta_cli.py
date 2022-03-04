@@ -10,7 +10,7 @@ from fastapi import status
 from pathlib import Path
 from tkinter import *
 from tkinter import messagebox
-
+import pydash
 
 class MyPrompt(Cmd):
     def help_screen():
@@ -131,41 +131,22 @@ class MyPrompt(Cmd):
             view_players_window_label.config(anchor=CENTER)
             view_players_window_label.pack()
 
-            
-            # Function will remove selected Listbox items
             def remove_item():
                 selected_checkboxs = listbox.curselection()
                 for selected_checkbox in selected_checkboxs[::-1]:
                     listbox.delete(selected_checkbox)
 
-                # def refresh():
-                #     exec("Members_list.py",globals())
-
-                # # Create Object
-                # root = Tk()
-
-                # Set Geometry
-                # root.geometry("500x500")
-
-                # Add Listbox
             listbox = Listbox(players_window,height = 10, width = 15, selectmode=MULTIPLE)
             listbox.pack()
 
-                # Listbox Items List
-                # items = object.do_current_players(inp="current_players")
-                # print(type(items))
-
-                # Iterate Through Items list
             for item in players:
                 listbox.insert(END, item)
 
 
-                # photo = PhotoImage(file = r"/Users/praneethkallam/SER-516-Project/delta_poker/reloading.png")
-                # photoimage = photo.subsample(3, 3)
-                # a = Button(root, text="Refresh", image = photoimage, compound = LEFT, command = refresh).pack()
+               
             b = Button(players_window, text="delete",command=remove_item).pack()
 
-                # Execute Tkinter
+                
             players_window.mainloop()
 
 
@@ -204,6 +185,18 @@ class MyPrompt(Cmd):
             view_players_window_label.pack()
             view_players_window_label.mainloop()
 
+        def delete_issue_vote():
+            delissue=Tk()
+
+            select_issue_label = tk.Label(delissue, text = 'selectissue',bg="orange", font=('roman',15, 'bold'))
+            select_issue_label.grid(row=0,column=0)
+            menu=tk.StringVar()
+            menu.set("select issue")
+            drop=tk.OptionMenu(delissue,menu,*string_list)
+            delete=Button(delissue, text='Refresh the votes',height="1",width="20", bd=8, font=('arial', 12, 'bold'), relief="groove", fg="green", bg="blue")
+            delete.grid(row=0,column=2)
+            drop.grid(row=0,column=1)
+
         players=[] 
         
         btn3=Button(start_window,text = 'ADD PLAYER',font=('Helvetica', 20, 'bold'), relief="groove", fg="green",command=do_add_player)
@@ -241,7 +234,11 @@ class MyPrompt(Cmd):
         btn12.config(anchor=CENTER)
         btn12.pack(fill=NONE)
         btn12.pack()
-        main
+        
+        btn15=Button(start_window,text = 'REFRESH VOTES FOR THE ISSUE', font=('Helvetica', 20, 'bold'), relief="groove", fg="green", command= delete_issue_vote)
+        btn15.config(anchor=CENTER)
+        btn15.pack(fill=NONE)
+        btn15.pack()
 
 
         
