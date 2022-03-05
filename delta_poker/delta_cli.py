@@ -1,6 +1,7 @@
 import argparse
 import json
 from logging import root
+import threading
 from numpy import tile
 import requests
 import time
@@ -15,7 +16,7 @@ from tkinter import messagebox
 class MyPrompt(Cmd):
     def help_screen():
         help_window = Tk()
-        
+
         help_window.title("Help Screen")
         label1 = Label(help_window, text = 'Have a look at these instructions! This will make you easy to understand the game and the code',bd=8, font=('Helvetica', 26, 'bold'),fg="black")
         label1.grid(column = 10, row = 0)
@@ -119,33 +120,38 @@ class MyPrompt(Cmd):
             players_window.mainloop()
         
         def do_remove_player():
-            players_window= Tk()
-            players_window.title("Current List of Players")
-            players_window.geometry('600x300')
-            view_players_window_label = Label(players_window, text = "List of players are:",font=('Helvetica', 24, 'bold'),fg="green")
-            view_players_window_label.grid(row = 100, column = 100)
-            view_players_window_label.config(anchor=CENTER)
-            view_players_window_label.pack()
+            remove_players_window= Tk()
+            remove_players_window.title("Current List of Players")
+            remove_players_window.geometry('600x300')
+            remove_players_window_label = Label(remove_players_window, text = "List of players are:",font=('Helvetica', 24, 'bold'),fg="green")
+            remove_players_window_label.grid(row = 100, column = 100)
+            remove_players_window_label.config(anchor=CENTER)
+            remove_players_window_label.pack()
 
+            listbox = Listbox(remove_players_window,height = 10, width = 15)
+            listbox.pack()
+            
+            # Function will remove selected Listbox items
             def remove_item():
                 selected_checkboxs = listbox.curselection()
-                for selected_checkbox in selected_checkboxs[::-1]:
+                for selected_checkbox in selected_checkboxs:
+                    value = listbox.get(selected_checkbox)
                     listbox.delete(selected_checkbox)
+                    players.remove(value)
 
-            listbox = Listbox(players_window,height = 10, width = 15, selectmode=MULTIPLE)
-            listbox.pack()
+            def refresh():
+                listbox.delete(0,END)
+                for item in players:
+                    listbox.insert(END, item)
 
             for item in players:
-                listbox.insert(END, item)
-            
-            b = Button(players_window, text="delete",command=remove_item).pack()
+                    listbox.insert(END, item)
 
-            exit_button=tk.Button(players_window,text='EXIT', height="1",width="20", bd=8, font=('Helvetica', 15, 'bold'), relief="groove", fg="red",command=players_window.destroy)
-            exit_button.config(anchor=CENTER)
-            exit_button.pack(fill=NONE)
-            exit_button.pack()
+            b = Button(remove_players_window, text="delete",command=remove_item).pack()
+            a = Button(remove_players_window, text="refresh",command=refresh).pack()
 
-            players_window.mainloop()
+                # Execute Tkinter
+            remove_players_window.mainloop()
 
         def get_current_dealer():
  
