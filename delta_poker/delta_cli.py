@@ -1,7 +1,6 @@
 import argparse
 import json
 from logging import root
-import threading
 from numpy import tile
 import requests
 import time
@@ -11,12 +10,12 @@ from fastapi import status
 from pathlib import Path
 from tkinter import *
 from tkinter import messagebox
-
+import pydash
 
 class MyPrompt(Cmd):
     def help_screen():
         help_window = Tk()
-
+        
         help_window.title("Help Screen")
         label1 = Label(help_window, text = 'Have a look at these instructions! This will make you easy to understand the game and the code',bd=8, font=('Helvetica', 26, 'bold'),fg="black")
         label1.grid(column = 10, row = 0)
@@ -58,7 +57,7 @@ class MyPrompt(Cmd):
         labe1 = Label(start_window, text = 'Welcome! This is the starting page of planning poker',bd=8, font=('Helvetica', 16, 'bold'), relief="groove", fg="black")
         labe1.config(anchor="center")
         labe1.pack()
-        
+        username="janardhan"
         def do_add_player():
             player_window=Tk()
             player_window.title("Add Player to the game")
@@ -120,38 +119,33 @@ class MyPrompt(Cmd):
             players_window.mainloop()
         
         def do_remove_player():
-            remove_players_window= Tk()
-            remove_players_window.title("Current List of Players")
-            remove_players_window.geometry('600x300')
-            remove_players_window_label = Label(remove_players_window, text = "List of players are:",font=('Helvetica', 24, 'bold'),fg="green")
-            remove_players_window_label.grid(row = 100, column = 100)
-            remove_players_window_label.config(anchor=CENTER)
-            remove_players_window_label.pack()
+            players_window= Tk()
+            players_window.title("Current List of Players")
+            players_window.geometry('600x300')
+            view_players_window_label = Label(players_window, text = "List of players are:",font=('Helvetica', 24, 'bold'),fg="green")
+            view_players_window_label.grid(row = 100, column = 100)
+            view_players_window_label.config(anchor=CENTER)
+            view_players_window_label.pack()
 
-            listbox = Listbox(remove_players_window,height = 10, width = 15)
-            listbox.pack()
-            
-            # Function will remove selected Listbox items
             def remove_item():
                 selected_checkboxs = listbox.curselection()
-                for selected_checkbox in selected_checkboxs:
-                    value = listbox.get(selected_checkbox)
+                for selected_checkbox in selected_checkboxs[::-1]:
                     listbox.delete(selected_checkbox)
-                    players.remove(value)
 
-            def refresh():
-                listbox.delete(0,END)
-                for item in players:
-                    listbox.insert(END, item)
+            listbox = Listbox(players_window,height = 10, width = 15, selectmode=MULTIPLE)
+            listbox.pack()
 
             for item in players:
-                    listbox.insert(END, item)
+                listbox.insert(END, item)
+            
+            b = Button(players_window, text="delete",command=remove_item).pack()
 
-            b = Button(remove_players_window, text="delete",command=remove_item).pack()
-            a = Button(remove_players_window, text="refresh",command=refresh).pack()
+            exit_button=tk.Button(players_window,text='EXIT', height="1",width="20", bd=8, font=('Helvetica', 15, 'bold'), relief="groove", fg="red",command=players_window.destroy)
+            exit_button.config(anchor=CENTER)
+            exit_button.pack(fill=NONE)
+            exit_button.pack()
 
-                # Execute Tkinter
-            remove_players_window.mainloop()
+            players_window.mainloop()
 
         def get_current_dealer():
  
@@ -210,19 +204,180 @@ class MyPrompt(Cmd):
 
             view_players_window_label.mainloop()
 
-        def delete_issue_vote():
-            delissue=Tk()
 
-            select_issue_label = tk.Label(delissue, text = 'selectissue',bg="orange", font=('roman',15, 'bold'))
+        def add_issue():
+            addissue=Tk()
+            addplayer=tk.StringVar()
+            addissue.geometry('600x200')
+            def click():
+                issue_desc=issue_entry.get()
+                #with open('/Users/janardhanreddybommireddy/Desktop/delta_poker/examples/issues_list.json','r')   as openfile:
+                    #json_object=json.load(openfile)
+                length=len(issue_list)+1
+                issue_count= 'issue'+ str(length)
+                new_dict={"title":issue_count,"description":issue_desc}
+                issue_list.append(new_dict)
+   #issue_file=json.dumps(issue_list)
+                print(issue_list)
+   #with open('/Users/janardhanreddybommireddy/Desktop/delta_poker/examples/issues_list.json','w')   as outfile:
+      #outfile.write(issue_file)
+                print(issue_list)
+                tk.messagebox.showinfo("Message",  "You have added issues")
+                add_player_name=addplayer.get()
+                addplayer.set("")
+            issue_label = Label(addissue, text = 'Issue',bg="orange", font=('roman',15, 'bold'))
+            issue_entry = Entry(addissue,textvariable = addplayer, font=('roman',15,'normal'))
+            sub_btn=Button(addissue,text = 'ADD',height="1",width="20", bd=8, font=('arial', 12, 'bold'), relief="groove", fg="green", bg="blue",command = click)
+            issue_label.grid(row=0,column=0)
+            issue_entry.grid(row=0,column=1)
+            sub_btn.grid(row=2,column=1)
+            sub_btn1=tk.Button(addissue,text='Exit', height="1",width="20", bd=8, font=('arial', 12, 'bold'), relief="groove", fg="red",command=quit)
+            sub_btn1.grid(row=2,column=2)
+            addissue.mainloop()
+
+        def select_issue():
+            selectissue=Tk()
+            selectissue.geometry('600x200')
+            
+           
+            def on_click_vote():
+                addvalue=tk.StringVar()
+                def on_click_submit(vote_issue):
+                    print(vote_issue)
+                    print(addvalue)
+                    val=vote_entry.get()
+                    print(val)
+                    already_exist=""
+                    for i in vote_list:
+                        prev_vot_list=i
+                        print(prev_vot_list)
+                        if (username==prev_vot_list['username']) and (vote_issue==prev_vot_list['description']):
+                            already_exist="true"
+                    if(already_exist!="true"):
+                        add_vote={"username":username,"description":vote_issue,"vote":val}
+                        print(add_vote)
+                        vote_list.append(add_vote)
+                        inp_vote=json.dumps(vote_list)
+                      #with open('/Users/janardhanreddybommireddy/Desktop/delta_poker/examples/vote.json','w') as outfile:
+                         #outfile.write(inp_vote)
+                        tk.messagebox.showinfo("Message1",  "You have added vote")
+                        val.set("")
+                        already_exist.set("")
+                    else:
+                        tk.messagebox.showinfo("Message_already_vote",  "You have already given the vote to the issue")
+                issue=menu.get()
+                print(issue)
+                #vote=StringVar()
+                #vote.set("Vote value")
+                vote_entry=Entry(selectissue, textvariable=addvalue, font=('roman',15,'normal'))
+                print(vote_entry)
+                #print(addvalue)
+                vote_sub_btn=Button(selectissue,text='Submit',height="1",width="20", bd=8, font=('arial', 12, 'bold'), relief="groove", fg="green",
+                bg="blue",command = lambda:on_click_submit(issue))
+                vote_sub_btn.grid(row=4,column=3)
+                vote_entry.grid(row=4,column=2)
+                print("After voting")
+            
+            #with open('/Users/janardhanreddybommireddy/Desktop/delta_poker/examples/issues_list.json','r')   as openfile:
+                #json_object=json.load(openfile)
+            length_list=len(issue_list)
+            string_list=[]
+            for list_value in issue_list:
+                desc_list= list_value
+                string_list.append(desc_list["description"])
+            select_issue_label = tk.Label(selectissue, text = 'selectissues',bg="orange", font=('roman',15, 'bold'))
             select_issue_label.grid(row=0,column=0)
             menu=tk.StringVar()
             menu.set("select issue")
-            drop=tk.OptionMenu(delissue,menu,*string_list)
-            delete=Button(delissue, text='Refresh the votes',height="1",width="20", bd=8, font=('arial', 12, 'bold'), relief="groove", fg="green", bg="blue")
+            drop=tk.OptionMenu(selectissue,menu,*string_list)
+            drop.grid(row=0,column=1)
+            print(drop)
+            print(menu)
+            vote=Button(selectissue, text='Vote',height="1",width="20", bd=8, font=('arial', 12, 'bold'), relief="groove", fg="green", bg="blue", command=on_click_vote)
+            vote.grid(row=0,column=2)
+            selectissue.mainloop()
+
+        def delete_issue_vote():
+            delissue=Tk()
+            delissue.geometry('600x300')
+            def on_click_refresh_vote():
+                global vote_list
+                delete_issue=menu.get()
+                print(delete_issue)
+   #with open('/Users/janardhanreddybommireddy/Desktop/delta_poker/examples/vote.json','r')   as openfile:
+      #votes=json.load(openfile)
+   # for result in votes:
+   #    print(result)
+   #    print("for loop")
+   #    print("result of desc checking%s",result['description'])
+   #    if(delete_issue==result['description']):
+   #       print("ifloop")
+   #       votes.remove(result)
+   #       print(votes)
+                vote_list = pydash.remove(vote_list, lambda result : result['description'] != delete_issue)
+                #vote_list=json.dumps(votes1)
+                print(vote_list)
+            length_list=len(issue_list)
+            string_list=[]
+            for list_value in issue_list:
+                desc_list= list_value
+                string_list.append(desc_list["description"])
+
+            select_issue_label = Label(delissue, text = 'selectissue',bg="orange", font=('roman',15, 'bold'))
+            select_issue_label.grid(row=0,column=0)
+            menu=tk.StringVar()
+            menu.set("select issue")
+            print(vote_list)
+            drop=OptionMenu(delissue,menu,*string_list)
+            delete=Button(delissue, text='Refresh the votes',height="1",width="50", bd=8, font=('arial', 12, 'bold'), relief="groove", fg="green", bg="blue",command=on_click_refresh_vote)
             delete.grid(row=0,column=2)
             drop.grid(row=0,column=1)
+            delissue.mainloop()
+        def on_click_show_result():
+            showresult=Tk()
+            showresult.geometry('600x300')
+            global vote_list
+            def on_click_ref():
+                issue=menu.get()
+                print(len(vote_list))
+                print(vote_list)
+                result_vote=[]
+                for i in vote_list:
+                    print("i value %s", i)
+                    if(issue==i['description']):
+                        result_vote.append(i['vote'])
+                if(len(result_vote)>0):      
+                    print(result_vote)
+                    vote_result=Label(showresult,text=result_vote,bg="black", font=('roman',15, 'bold'))
+                else:
+                    vote_result=Label(showresult,text="None",bg="black", font=('roman',15, 'bold'))
+                vote_result.grid(row=5,column=1)
 
-        players=[] 
+            length_list=len(issue_list)
+            string_list=[]
+            for list_value in issue_list:
+                desc_list= list_value
+                string_list.append(desc_list["description"])
+
+            select_issue_label = Label(showresult, text = 'selectissue',bg="orange", font=('roman',15, 'bold'))
+            select_issue_label.grid(row=0,column=0)
+            menu=tk.StringVar()
+            menu.set("select issue")
+            print("vote list %s",vote_list)
+            drop=OptionMenu(showresult,menu,*string_list)
+            delete=Button(showresult, text='Show result',height="1",width="50", bd=8, font=('arial', 12, 'bold'), relief="groove", fg="green", bg="blue",command=on_click_ref)
+            delete.grid(row=0,column=2)
+
+            drop.grid(row=0,column=1)
+
+            showresult.mainloop()
+            
+
+        players=[]
+        issue_list=[{'title': 'issue1', 'description': 'new issue1'}]
+        global vote_list
+        vote_list=[]
+        vote_list=[{'username':'','description':'null','vote':''}] 
         
         btn3=Button(start_window,text = 'ADD PLAYER',font=('Helvetica', 20, 'bold'), relief="groove", fg="green",command=do_add_player)
         btn3.config(anchor=CENTER)
@@ -258,11 +413,26 @@ class MyPrompt(Cmd):
         btn12.config(anchor=CENTER)
         btn12.pack(fill=NONE)
         btn12.pack()
+
+        btn13=Button(start_window,text = 'ADD NEW ISSUE TO THE SYSTEM', font=('Helvetica', 20, 'bold'), relief="groove", fg="green", command= add_issue)
+        btn13.config(anchor=CENTER)
+        btn13.pack(fill=NONE)
+        btn13.pack()
+
+        btn14=Button(start_window,text = 'SELECTS ISSUE FOR VOTING', font=('Helvetica', 20, 'bold'), relief="groove", fg="green", command= select_issue)
+        btn14.config(anchor=CENTER)
+        btn14.pack(fill=NONE)
+        btn14.pack()
         
         btn15=Button(start_window,text = 'REFRESH VOTES FOR THE ISSUE', font=('Helvetica', 20, 'bold'), relief="groove", fg="green", command= delete_issue_vote)
         btn15.config(anchor=CENTER)
         btn15.pack(fill=NONE)
         btn15.pack()
+
+        btn16=Button(start_window,text = 'SHOW VOTE RESULT', font=('Helvetica', 20, 'bold'), relief="groove", fg="green", command= on_click_show_result)
+        btn16.config(anchor=CENTER)
+        btn16.pack(fill=NONE)
+        btn16.pack()
 
         start_window.mainloop()
     
