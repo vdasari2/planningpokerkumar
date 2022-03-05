@@ -10,7 +10,7 @@ from fastapi import status
 from pathlib import Path
 from tkinter import *
 from tkinter import messagebox
-import pydash
+
 
 class MyPrompt(Cmd):
     def help_screen():
@@ -90,7 +90,7 @@ class MyPrompt(Cmd):
             sub_btn.grid(row=2,column=0)
             
 
-            exit_btn1=tk.Button(player_window,text='EXIT', height="1",width="20", bd=8, font=('Helvetica', 15, 'bold'), relief="groove", fg="red",command=quit)
+            exit_btn1=tk.Button(player_window,text='EXIT', height="1",width="20", bd=8, font=('Helvetica', 15, 'bold'), relief="groove", fg="red",command=player_window.destroy)
             exit_btn1.grid(row=2,column=1)
 
             player_window.mainloop()
@@ -117,7 +117,7 @@ class MyPrompt(Cmd):
                 
            
 
-            btn12=Button(players_window,text = 'CLOSE',font=('Helvetica', 18, 'bold'), relief="groove", fg="red",command=quit)
+            btn12=Button(players_window,text = 'CLOSE',font=('Helvetica', 18, 'bold'), relief="groove", fg="red",command=players_window.destroy)
             btn12.pack(fill=NONE)
 
             players_window.mainloop()
@@ -146,7 +146,10 @@ class MyPrompt(Cmd):
                
             b = Button(players_window, text="delete",command=remove_item).pack()
 
-                
+            exit1_button=Button(players_window,text = 'CLOSE',font=('Helvetica', 18, 'bold'), relief="groove", fg="red",command=players_window.destroy)
+            exit1_button.config(anchor=CENTER)
+            exit1_button.pack(fill=NONE)
+            exit1_button.pack()
             players_window.mainloop()
 
 
@@ -158,7 +161,8 @@ class MyPrompt(Cmd):
 
             else:
 
-                messagebox.showinfo("Current Dealer", "Please add players ")            
+                messagebox.showinfo("Current Dealer", "Please add players ")    
+
         def user_count():
             z=len(players)
             user_count_players= Tk()
@@ -168,12 +172,29 @@ class MyPrompt(Cmd):
             view_players_window_label.grid(row = 100, column = 100)
             view_players_window_label.config(anchor=CENTER)
             view_players_window_label.pack()
+
+            exit_button=Button(user_count_players,text = 'CLOSE',font=('Helvetica', 18, 'bold'), relief="groove", fg="red",command=user_count_players.destroy)
+            exit_button.config(anchor=CENTER)
+            exit_button.pack(fill=NONE)
+            exit_button.pack()
+
             user_count_players.mainloop()        
 
-        def game_new():
-            new_game_window = Tk()
-            new_game_window.title("Start a New Game")
-            new_game_window.geometry('600x200')
+        def voting_system():
+            new_voting_window = Tk()
+            new_voting_window.title("Start a New Game")
+            new_voting_window.geometry('600x200')
+            view_voting_system = Label(new_voting_window,text ="Voting System'['0','1','2','3','5','8','13','21']",font=('Helvetica', 18),fg="black")
+            view_voting_system.grid(row = 100, column = 100)
+            view_voting_system.config(anchor=CENTER)
+            view_voting_system.pack()
+
+            exit_button=Button(new_voting_window,text = 'CLOSE',font=('Helvetica', 18, 'bold'), relief="groove", fg="red",command=new_voting_window.destroy)
+            exit_button.config(anchor=CENTER)
+            exit_button.pack(fill=NONE)
+            exit_button.pack()
+
+            view_voting_system.mainloop()
 
         def new_game():
             players_window= Tk()
@@ -219,7 +240,7 @@ class MyPrompt(Cmd):
         btn11.pack(fill=NONE)
         btn11.pack()
         
-        btn12=Button(start_window,text = 'VOTING SYSTEM', font=('Helvetica', 20, 'bold'), relief="groove", fg="green", command= game_new)
+        btn12=Button(start_window,text = 'VOTING SYSTEM', font=('Helvetica', 20, 'bold'), relief="groove", fg="green", command= voting_system)
         btn12.config(anchor=CENTER)
         btn12.pack(fill=NONE)
         btn12.pack()
@@ -261,6 +282,8 @@ class MyPrompt(Cmd):
     btn2=tk.Button(root,text='HELP', height="1",width="15", bd=8, font=('Helvetica', 15, 'bold'), relief="groove", fg="red",command=help_screen)
     btn2.pack(fill=NONE)
     
+    btn2=tk.Button(root,text='CLOSE', height="1",width="15", bd=8, font=('Helvetica', 15, 'bold'), relief="groove", fg="red",command=root.destroy)
+    btn2.pack(fill=NONE)
 
     
     mainloop()
