@@ -11,8 +11,25 @@ from pathlib import Path
 from tkinter import *
 from tkinter import messagebox
 import pydash
+import tkinter.ttk as ttk
+import csv
+import threading
+import numpy
 
 class MyPrompt(Cmd):
+    def server_up():
+        global server
+        def starter():
+            import os
+            os.system("uvicorn delta_poker:app --host=0.0.0.0")
+
+        server = threading.Thread(target=starter, daemon=True)
+        server.start()
+
+    def stop():
+        print ("Stop")
+        top.destroy()
+
     def help_screen():
         help_window = Tk()
         
@@ -53,7 +70,7 @@ class MyPrompt(Cmd):
         
         start_window = Tk()
         start_window.title("Start Screen")
-        start_window.geometry('700x400')
+        start_window.geometry('700x500')
         labe1 = Label(start_window, text = 'Welcome! This is the starting page of planning poker',bd=8, font=('Helvetica', 16, 'bold'), relief="groove", fg="black")
         labe1.config(anchor="center")
         labe1.pack()
@@ -94,6 +111,70 @@ class MyPrompt(Cmd):
             exit_btn1.grid(row=2,column=1)
 
             player_window.mainloop()
+        
+        def user_data():
+            user_data= Tk()
+            user_data.title("Display User Data")
+            user_data.geometry('800x400')
+
+            TableMargin = Frame(user_data, width=500)
+            TableMargin.pack(side=TOP)
+            scrollbarx = Scrollbar(TableMargin, orient=HORIZONTAL)
+            scrollbary = Scrollbar(TableMargin, orient=VERTICAL)
+            tree = ttk.Treeview(TableMargin, columns=("id", "subject", "description"), height=400, selectmode="extended", yscrollcommand=scrollbary.set, xscrollcommand=scrollbarx.set)
+            scrollbary.config(command=tree.yview)
+            scrollbary.pack(side=RIGHT, fill=Y)
+            scrollbarx.config(command=tree.xview)
+            scrollbarx.pack(side=BOTTOM, fill=X)
+            tree.heading('id', text="id", anchor=W)
+            tree.heading('subject', text="subject", anchor=W)
+            tree.heading('description', text="description", anchor=W)
+            tree.column('#0', stretch=NO, minwidth=0, width=0)
+            tree.column('#1', stretch=NO, minwidth=0, width=100)
+            tree.column('#2', stretch=NO, minwidth=0, width=200)
+            tree.column('#3', stretch=NO, minwidth=0, width=900)
+            tree.pack()
+            #Change the path of the userstories.csv file from your machine
+            with open('/Users/vishnupreethamreddydasari/Downloads/userstories.csv') as f:
+                reader = csv.DictReader(f, delimiter=',')
+                for row in reader:
+                    firstname = row['id']
+                    lastname = row['subject']
+                    address = row['description']
+                    tree.insert("", 0, values=(firstname, lastname, address))
+            user_data.mainloop()
+
+        def epic_data():
+            epic_data = Tk()
+            epic_data.title("Tasks Data")
+            epic_data.geometry('800x400')
+
+            TableMargin = Frame(epic_data, width=500)
+            TableMargin.pack(side=TOP)
+            scrollbarx = Scrollbar(TableMargin, orient=HORIZONTAL)
+            scrollbary = Scrollbar(TableMargin, orient=VERTICAL)
+            tree = ttk.Treeview(TableMargin, columns=("id", "subject", "sprint"), height=400, selectmode="extended", yscrollcommand=scrollbary.set, xscrollcommand=scrollbarx.set)
+            scrollbary.config(command=tree.yview)
+            scrollbary.pack(side=RIGHT, fill=Y)
+            scrollbarx.config(command=tree.xview)
+            scrollbarx.pack(side=BOTTOM, fill=X)
+            tree.heading('id', text="id", anchor=W)
+            tree.heading('subject', text="subject", anchor=W)
+            tree.heading('sprint', text="sprint", anchor=W)
+            tree.column('#0', stretch=NO, minwidth=0, width=0)
+            tree.column('#1', stretch=NO, minwidth=0, width=100)
+            tree.column('#2', stretch=NO, minwidth=0, width=500)
+            tree.column('#3', stretch=NO, minwidth=0, width=100)
+            tree.pack()
+            #Change the path of the epics.csv file from your machine
+            with open('/Users/vishnupreethamreddydasari/Downloads/tasks.csv') as f:
+                reader = csv.DictReader(f, delimiter=',')
+                for row in reader:
+                    firstname = row['id']
+                    lastname = row['subject']
+                    address = row['sprint']
+                    tree.insert("", 0, values=(firstname, lastname, address))
+            epic_data.mainloop()
             
         def view_players():
             players_window= Tk()
@@ -127,23 +208,26 @@ class MyPrompt(Cmd):
             view_players_window_label.config(anchor=CENTER)
             view_players_window_label.pack()
 
-            def remove_item():
-                selected_checkboxs = listbox.curselection()
-                for selected_checkbox in selected_checkboxs[::-1]:
-                    listbox.delete(selected_checkbox)
-
             listbox = Listbox(players_window,height = 10, width = 15, selectmode=MULTIPLE)
             listbox.pack()
+
+            def remove_item():
+                selected_checkboxs = listbox.curselection()
+                for selected_checkbox in selected_checkboxs:
+                    value = listbox.get(selected_checkbox)
+                    listbox.delete(selected_checkbox)
+                    players.remove(value)
+            
+            def refresh():
+                listbox.delete(0,END)
+                for item in players:
+                    listbox.insert(END, item)
 
             for item in players:
                 listbox.insert(END, item)
             
             b = Button(players_window, text="delete",command=remove_item).pack()
-
-            exit_button=tk.Button(players_window,text='EXIT', height="1",width="20", bd=8, font=('Helvetica', 15, 'bold'), relief="groove", fg="red",command=players_window.destroy)
-            exit_button.config(anchor=CENTER)
-            exit_button.pack(fill=NONE)
-            exit_button.pack()
+            a = Button(players_window, text="refresh",command=refresh).pack()
 
             players_window.mainloop()
 
@@ -154,7 +238,8 @@ class MyPrompt(Cmd):
 
             else:
 
-                messagebox.showinfo("Current Dealer", "Please add players ")            
+                messagebox.showinfo("Current Dealer", "Please add players ")    
+
         def user_count():
             z=len(players)
             user_count_players= Tk()
@@ -209,18 +294,17 @@ class MyPrompt(Cmd):
             addissue=Tk()
             addplayer=tk.StringVar()
             addissue.geometry('600x200')
+            addissue.title("Adding Issues")
             def click():
                 issue_desc=issue_entry.get()
-                #with open('/Users/janardhanreddybommireddy/Desktop/delta_poker/examples/issues_list.json','r')   as openfile:
-                    #json_object=json.load(openfile)
+                
                 length=len(issue_list)+1
                 issue_count= 'issue'+ str(length)
                 new_dict={"title":issue_count,"description":issue_desc}
                 issue_list.append(new_dict)
-   #issue_file=json.dumps(issue_list)
+  
                 print(issue_list)
-   #with open('/Users/janardhanreddybommireddy/Desktop/delta_poker/examples/issues_list.json','w')   as outfile:
-      #outfile.write(issue_file)
+   
                 print(issue_list)
                 tk.messagebox.showinfo("Message",  "You have added issues")
                 add_player_name=addplayer.get()
@@ -258,8 +342,7 @@ class MyPrompt(Cmd):
                         print(add_vote)
                         vote_list.append(add_vote)
                         inp_vote=json.dumps(vote_list)
-                      #with open('/Users/janardhanreddybommireddy/Desktop/delta_poker/examples/vote.json','w') as outfile:
-                         #outfile.write(inp_vote)
+                      
                         tk.messagebox.showinfo("Message1",  "You have added vote")
                         val.set("")
                         already_exist.set("")
@@ -267,19 +350,17 @@ class MyPrompt(Cmd):
                         tk.messagebox.showinfo("Message_already_vote",  "You have already given the vote to the issue")
                 issue=menu.get()
                 print(issue)
-                #vote=StringVar()
-                #vote.set("Vote value")
+                
                 vote_entry=Entry(selectissue, textvariable=addvalue, font=('roman',15,'normal'))
                 print(vote_entry)
-                #print(addvalue)
+                
                 vote_sub_btn=Button(selectissue,text='Submit',height="1",width="20", bd=8, font=('arial', 12, 'bold'), relief="groove", fg="green",
                 bg="blue",command = lambda:on_click_submit(issue))
                 vote_sub_btn.grid(row=4,column=3)
                 vote_entry.grid(row=4,column=2)
                 print("After voting")
             
-            #with open('/Users/janardhanreddybommireddy/Desktop/delta_poker/examples/issues_list.json','r')   as openfile:
-                #json_object=json.load(openfile)
+            
             length_list=len(issue_list)
             string_list=[]
             for list_value in issue_list:
@@ -304,18 +385,9 @@ class MyPrompt(Cmd):
                 global vote_list
                 delete_issue=menu.get()
                 print(delete_issue)
-   #with open('/Users/janardhanreddybommireddy/Desktop/delta_poker/examples/vote.json','r')   as openfile:
-      #votes=json.load(openfile)
-   # for result in votes:
-   #    print(result)
-   #    print("for loop")
-   #    print("result of desc checking%s",result['description'])
-   #    if(delete_issue==result['description']):
-   #       print("ifloop")
-   #       votes.remove(result)
-   #       print(votes)
+   
                 vote_list = pydash.remove(vote_list, lambda result : result['description'] != delete_issue)
-                #vote_list=json.dumps(votes1)
+                
                 print(vote_list)
             length_list=len(issue_list)
             string_list=[]
@@ -333,6 +405,7 @@ class MyPrompt(Cmd):
             delete.grid(row=0,column=2)
             drop.grid(row=0,column=1)
             delissue.mainloop()
+            
         def on_click_show_result():
             showresult=Tk()
             showresult.geometry('600x300')
@@ -348,7 +421,7 @@ class MyPrompt(Cmd):
                         result_vote.append(i['vote'])
                 if(len(result_vote)>0):      
                     print(result_vote)
-                    vote_result=Label(showresult,text=result_vote,bg="black", font=('roman',15, 'bold'))
+                    vote_result=Label(showresult,text=result_vote, font=('roman',15, 'bold'))
                 else:
                     vote_result=Label(showresult,text="None",bg="black", font=('roman',15, 'bold'))
                 vote_result.grid(row=5,column=1)
@@ -398,6 +471,16 @@ class MyPrompt(Cmd):
         btn11.config(anchor=CENTER)
         btn11.pack(fill=NONE)
         btn11.pack()
+
+        btn50=Button(start_window,text = 'DISPLAY USER DATA', font=('Helvetica', 20, 'bold'), relief="groove", fg="green", command = user_data)
+        btn50.config(anchor=CENTER)
+        btn50.pack(fill=NONE)
+        btn50.pack()
+
+        btn55=Button(start_window,text = 'DISPLAY TASKS DATA', font=('Helvetica', 20, 'bold'), relief="groove", fg="green", command = epic_data)
+        btn55.config(anchor=CENTER)
+        btn55.pack(fill=NONE)
+        btn55.pack()
         
         btn12=Button(start_window,text = 'VOTING SYSTEM', font=('Helvetica', 20, 'bold'), relief="groove", fg="green", command= voting_system)
         btn12.config(anchor=CENTER)
@@ -434,6 +517,8 @@ class MyPrompt(Cmd):
         btn16.pack(fill=NONE)
         btn16.pack()
 
+        
+
         start_window.mainloop()
     
     root = tk.Tk()
@@ -457,6 +542,14 @@ class MyPrompt(Cmd):
     exit_button.config(anchor=CENTER)
     exit_button.pack(fill=NONE)
     exit_button.pack()
+
+    btn30=tk.Button(root,text='Start Server', height="1",width="15", bd=8, font=('Helvetica', 14, 'bold'), relief="groove", fg="Green",command=server_up)
+    btn30.pack(fill=NONE)
+    btn30.place(x=350,y=350)
+
+    btn31=tk.Button(root,text='Stop Server', height="1",width="15", bd=8, font=('Helvetica', 14, 'bold'), relief="groove", fg="Green",command=root.destroy)
+    btn31.pack(fill=NONE)
+    btn31.place(x=500,y=350)
     
     mainloop()
 
