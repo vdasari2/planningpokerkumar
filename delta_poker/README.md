@@ -1,3 +1,23 @@
+**HOW TO RUN THE GAME:**
+
+1. Install Tkinter module by running the following command (pip3 install tk)
+2. Install requests module by running the following command (pip3 install requests)
+3. Install pydash by running the following command (pip3 install pydash)
+4. Change the file path of the following CSV files to the file in your machine: (tasks.csv , userstories.csv). Comments are added and highlighted where this change is needed. 
+5. Once the above modules are installed and file path is changed run the game by executing the delta_cli.py by giving the following commands in the terminal:
+        
+	
+	1) cd delta_poker
+        2) python3 delta_cli.py
+
+
+Note: To make it easier to find the lines and change the path, please use Command + F on MACOS or Control + F on Windows machine to search for "Change the path of the userstories.csv file from your machine" and "Change the path of the epics.csv file from your machine"
+
+
+                                                           *****
+
+
+
 ## Dr. Gary
 This project runs pretty cleanly out-of-the-box. It uses sockets not HTTP and runs on the command-line using python3.
 I ran it on multiple hosts at home and it worked with no issues. The original project is only 6 months old and is at
